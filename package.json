@@ -3,7 +3,7 @@
   "description": "VSCode Notebook++ for MikroTik RouterOS",
   "author": "AmmØ",
   "license": "MIT",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "publisher": "TIKOCI",
   "categories": [
     "Notebooks",
@@ -153,11 +153,11 @@
   },
   "scripts": {
     "clean": "rm -rf ./out/* && rm -f *.vsix",
-    "compile": "bun build src/extension.ts --outdir ./out --external vscode --format=cjs --target=node --sourcemap",
+    "compile": "bun build src/extension.ts --outdir ./out --external vscode --format=cjs --target=browser --sourcemap",
     "vsix:package": "rm -f *.vsix && bun run compile && npx @vscode/vsce package --no-dependencies --pre-release",
     "vsix:install": "bun run vsix:remove; bun run vsix:package && code --install-extension tikbook-*.vsix",
     "vsix:remove": "code --uninstall-extension tikoci.tikbook || echo '... well if not install, cannot remove it'",
-    "watch": "bun run watch",
+    "watch": "bun build src/extension.ts --outdir ./out --external vscode --format=cjs --target=browser --sourcemap --watch",
     "bump:patch": "npm version patch",
     "vscode:prepublish": "bun run compile",
     "ovsx:publish": "npx ovsx publish tikbook.vsix -p $OVSX_PAT",
