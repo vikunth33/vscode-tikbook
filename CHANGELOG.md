@@ -5,11 +5,15 @@
 
 ## Changelog
 
+### 0.1.4
+
+#### Changes
+* Initial to enabled for "VSCode for Web"
+
+#### Fixes
+* Add `browser` to `package.json` & removed `main`
+
 ### 0.1.3
-
-_Same as 0.1.2 but testing publication_
-
-### 0.1.2
 
 #### Changes
 * Checkin and build in GitHub
@@ -17,7 +21,4 @@ _Same as 0.1.2 but testing publication_
 #### Fixes
 * Copied base code and infra from `tikoci/lsp-routeros-ts`
 
-### 0.1.1
-
-_Internal testing before GitHub repo_
-
+> Prior builds were not on GitHub

@@ -3,7 +3,7 @@
   "description": "VSCode Notebook++ for MikroTik RouterOS",
   "author": "AmmØ",
   "license": "MIT",
-  "version": "0.1.3",
+  "version": "0.1.4",
   "publisher": "TIKOCI",
   "categories": [
     "Notebooks",
@@ -39,7 +39,7 @@
   "engines": {
     "vscode": "^1.75.0"
   },
-  "main": "./out/extension.js",
+  "browser": "./out/extension.js",
   "funding": [
     "https://coff.ee/amm0"
   ],
