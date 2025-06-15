@@ -160,7 +160,7 @@
     "watch": "bun run watch",
     "bump:patch": "npm version patch",
     "vscode:prepublish": "bun run compile",
-    "ovsx:publish": "npx ovsx publish vscode-tikbook-*.vsix -p $OVSX_PAT",
+    "ovsx:publish": "npx ovsx publish tikbook.vsix -p $OVSX_PAT",
     "vsix:publish": "npx @vscode/vsce publish --no-dependencies --pre-release -p $VSCE_PAT"
   },
   "devDependencies": {
