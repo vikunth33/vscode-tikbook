@@ -1,0 +1,176 @@
+{
+  "name": "tikbook",
+  "description": "VSCode Notebook++ for MikroTik RouterOS",
+  "author": "AmmØ",
+  "license": "MIT",
+  "version": "0.1.1",
+  "publisher": "TIKOCI",
+  "categories": [
+    "Notebooks",
+    "Testing"
+  ],
+  "displayName": "TikBook for RouterOS",
+  "icon": "icon.png",
+  "keywords": [
+    "routeros",
+    "mikrotik",
+    "lsp",
+    "rsc",
+    "tikoci",
+    "notebook",
+    "literate",
+    "tikbook",
+    "notebookKernelTikbook"
+  ],
+  "preview": true,
+  "pricing": "Free",
+  "sponsor": {
+    "url": "https://coff.ee/amm0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/tikoci/vscode-tikbook.git"
+  },
+  "bugs": {
+    "url": "https://github.com/tikoci/vscode-tikbook/issues"
+  },
+  "qna": "https://github.com/orgs/tikoci/discussions/categories/q-a",
+  "homepage": "https://github.com/tikoci/vscode-tikbook/blob/main/README.md",
+  "engines": {
+    "vscode": "^1.75.0"
+  },
+  "main": "./out/extension.js",
+  "funding": [
+    "https://coff.ee/amm0"
+  ],
+  "activationEvents": [
+    "onNotebook:tikbook"
+  ],
+  "contributes": {
+    "languages": [
+      {
+        "id": "routeros-tikbook",
+        "icon": {
+          "light": "icon.png",
+          "dark": "icon.png"
+        },
+        "extensions": [
+          ".tikbook.rsc",
+          ".tikbook"
+        ],
+        "firstLine": "^#!tikbook",
+        "aliases": [
+          "RouterOS TikBook",
+          "routeros-notebook",
+          "tikbook",
+          "routeros-tikbook"
+        ]
+      }
+    ],
+    "configuration": {
+      "type": "object",
+      "title": "TikBook for RouterOS",
+      "properties": {
+        "tikbook.profiles": {
+          "scope": "resource",
+          "type": "array",
+          "default": [],
+          "description": "Set the host and protocol to connect to RouterOS.  e.g.: 'https://192.168.88.1'"
+        },
+        "tikbook.baseUrl": {
+          "scope": "resource",
+          "type": "string",
+          "default": "http://192.168.74.1",
+          "description": "Set the host and protocol to connect to RouterOS.  e.g.: 'https://192.168.88.1'"
+        },
+        "tikbook.username": {
+          "scope": "resource",
+          "type": "string",
+          "default": "lsp",
+          "description": "Username to use when TikBook connects to a real RouterOS device"
+        },
+        "tikbook.password": {
+          "scope": "resource",
+          "type": "string",
+          "default": "changeme",
+          "description": "Password to use when TikBook connects to a real RouterOS device"
+        }
+      }
+    },
+    "notebooks": [
+      {
+        "type": "tikbook",
+        "displayName": "RouterOS Notebook",
+        "selector": [
+          {
+            "filenamePattern": "*.tikbook*"
+          }
+        ]
+      }
+    ],
+    "commands": [
+      {
+        "command": "tikbook.cmd.routeros.active.config.show",
+        "title": "Show Current Configuration",
+        "category": "RouterOS"
+      },
+      {
+        "command": "tikbook.cmd.tikociHome.browse",
+        "title": "Browse Project Homepage",
+        "category": "TIKOCI"
+      },
+      {
+        "command": "tikbook.cmd.tikociDiscussions.browse",
+        "title": "View Discussions",
+        "category": "TIKOCI"
+      },
+      {
+        "command": "tikbook.cmd.tikociGithubRepos.browse",
+        "title": "Browse GitHub Repository...",
+        "category": "TIKOCI"
+      },
+      {
+        "command": "tikbook.cmd.mikrotikForum.browse",
+        "title": "Browse Forum",
+        "category": "MikroTik"
+      },
+      {
+        "command": "tikbook.cmd.mikrotikJira.browse",
+        "title": "Bug Reporting",
+        "category": "MikroTik"
+      },
+      {
+        "command": "tikbook.cmd.mikrotikConfluenceRouterOS.scripting.browse",
+        "title": "Scripting Help",
+        "category": "MikroTik"
+      },
+      {
+        "command": "tikbook.cmd.mikrotikConfluenceRouterOS.browse",
+        "title": "Documentation",
+        "category": "MikroTik"
+      }
+    ]
+  },
+  "scripts": {
+    "clean": "rm -rf ./out/* && rm -f *.vsix",
+    "compile": "bun build src/extension.ts --outdir ./out --external vscode --format=cjs --target=node --sourcemap",
+    "vsix:package": "rm -f *.vsix && bun run compile && npx @vscode/vsce package --no-dependencies --pre-release",
+    "vsix:install": "bun run vsix:remove; bun run vsix:package && code --install-extension tikbook-*.vsix",
+    "vsix:remove": "code --uninstall-extension tikoci.tikbook || echo '... well if not install, cannot remove it'",
+    "watch": "bun run watch",
+    "bump:patch": "npm version patch",
+    "vscode:prepublish": "bun run compile",
+    "ovsx:publish": "npx ovsx publish vscode-tikbook-*.vsix -p $OVSX_PAT",
+    "vsix:publish": "npx @vscode/vsce publish --no-dependencies --pre-release -p $VSCE_PAT"
+  },
+  "devDependencies": {
+    "@types/bun": "^1.2.16",
+    "axios": "^1.9.0"
+  },
+  "peerDependencies": {
+    "@types/axios": "^0.9.36",
+    "@types/node": "^20.5.7",
+    "typescript": "^5"
+  },
+  "private": false
+}
