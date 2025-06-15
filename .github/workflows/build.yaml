@@ -39,14 +39,14 @@ jobs:
       - name: Package VSIX
         run: |
           npm run vsix:package
-          mv vscode-tikbook-*.vsix vscode-tikbook.vsix
+          mv tikbook-*.vsix tikbook.vsix
 
       
       - name: Upload VSIX artifact
         uses: actions/upload-artifact@v4
         with:
-          name: vscode-tikbook.vsix
-          path: vscode-tikbook.vsix
+          name: tikbook.vsix
+          path: tikbook.vsix
 
       
 
@@ -74,10 +74,10 @@ jobs:
             > See [README.md](https://github.com/tikoci/vscode-tikbook/README.md) for more details about installation and usage.
             >
 
-            Download `vscode-tikbook.vsix` and install use `code --install-extension vscode-tikbook.vsix` from your download directory.
+            Download `tikbook.vsix` and install use `code --install-extension tikbook.vsix` from your download directory.
 
           artifacts: |
-            vscode-tikbook.vsix
+            tikbook.vsix
             
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -87,4 +87,4 @@ jobs:
       - name: Publish to VSCode Marketplace
         run: npx @vscode/vsce publish --no-dependencies --pre-release -p ${{secrets.VSCE_PAT}}
       - name: Publish to Open-VSX too
-        run: npx ovsx publish vscode-tikbook.vsix -p ${{secrets.OVSX_PAT}}
+        run: npx ovsx publish tikbook.vsix -p ${{secrets.OVSX_PAT}}
