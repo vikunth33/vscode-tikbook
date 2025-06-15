@@ -1,9 +1,9 @@
 # TikBook for RouterOS
 
-### _A_ literate _way to work with RouterOS scripts in VSCode..._
+### _a_ literate _way to work with RouterOS scripts in VSCode..._
 > More conceptual than functional at this point.  For example, readme is pretty incomplete.  Feel free to try the extension, and report.
 
-The TikBook VSCode Extensions provide a "Notebook" interface on MikroTik RouterOS script and configuration.  If you're not familar with notebooks, it a way of mixing runnable code and text in same document, with example like Jupyter, Pluto, or Observable.  
+The TikBook VSCode Extensions provide a "Notebook" interface on MikroTik RouterOS script and configuration.  If you're not familiar with notebooks, it a way of mixing runnable code and text in same document, with example like Jupyter, Pluto, or Observable.  
 
 The only different between a "TikBook" and "normal" RouterOS script is the use of special comments — and since comments are ignored by RouterOS – a TikBook works on RouterOS unmodified.  So a `.tikbook.rsc` file is really just a RouterOS some "coding conventions" like that `/^#| .*$/` means embedded `.md` Markdown content.
 
@@ -14,7 +14,7 @@ As applied to RouterOS, script can be put into individual "notebook cells" and m
   * `#|` at start of line is to store Markdown text into a regular script, as a comment RouterOS ignores it — but TikBook uses it to render Markdown in the VSCode Notebook.
   * `#.` at start of line is used to separate a RouterOS script into two notebook cells.  `#|` automatically splits script code into cells, so the `#.` is **not** always needed since Markdown can be used. 
 
-The default extension is `*.tikbook.rsc`, which is used to trigger VSCode's Notebook interface and use this extension.  But the end `.rsc` allows the same script to work with "RouterOS LSP" and other syntax colorizers that reconize the `*.rsc` as RouterOS script — since a TikBook is still a valid `.rsc`.  
+The default extension is `*.tikbook.rsc`, which is used to trigger VSCode's Notebook interface and use this extension.  But the end `.rsc` allows the same script to work with "RouterOS LSP" and other syntax colorizers that recognize the `*.rsc` as RouterOS script — since a TikBook is still a valid `.rsc`.  
 
 
 #### Uses Cases
