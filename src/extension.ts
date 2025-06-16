@@ -116,32 +116,43 @@ class TikbookSerializer implements NotebookSerializer {
     ): Promise<NotebookData> {
         var decoded: string[] | null = new TextDecoder(encoding)
             .decode(content)
-            ?.replace(/\r\n|\r/g, '\n')
+            ?.replace('\r\n', '\n')
             ?.split('\n')
 
         let cells: NotebookCellData[] = []
-        let pendingMarkdown: string = ""
+        let pendingMarkup: string = ""
         let pendingCode: string = ""
 
-        decoded.forEach((itemRaw, index) => {
-            const item = itemRaw.trim()
-            const isMarkdown = item[0] === '#' && item[1] === markdownMark
+        decoded.forEach((item, index) => {
+            const isMarkdown = item[0] === '#' && item[1] === markdownMark && item[2] === " " 
             const isCodeEndMark = item[0] === '#' && item[1] === codeEndMark
             const isLast = index === decoded.length - 1
-            const isBlank = item.trim() === ""
 
-            if (isMarkdown) {
-                pendingMarkdown += `${item.substring(3)}\n`
-            } else {
-                if (!isCodeEndMark) pendingCode += `${item}\n`
-            }
-            if ((isLast || isMarkdown || isCodeEndMark) && pendingCode) {
+            if (isCodeEndMark) {
                 cells.push(new NotebookCellData(NotebookCellKind.Code, pendingCode, langid))
                 pendingCode = ""
+                return
             }
-            if ((isLast || !isMarkdown || isBlank) && pendingMarkdown) {
-                cells.push(new NotebookCellData(NotebookCellKind.Markup, pendingMarkdown, "markdown"))
-                pendingMarkdown = ""
+            if (isMarkdown) {
+                if (pendingCode.length > 0) {
+                    cells.push(new NotebookCellData(NotebookCellKind.Code, pendingCode, langid))
+                    pendingCode = ""
+                }
+                pendingMarkup += `${item.substring(3)}\n`
+            } else { // isCode
+                if (pendingMarkup.length > 0) {
+                    cells.push(new NotebookCellData(NotebookCellKind.Markup, pendingMarkup, "markdown"))
+                    pendingMarkup = ""
+                }
+                pendingCode += `${item}\n`
+            }
+            if (isLast) {
+                if (pendingMarkup.length > 0) {
+                    cells.push(new NotebookCellData(NotebookCellKind.Markup, pendingMarkup, "markdown"))
+                }
+                if (pendingCode.length > 0) {
+                    cells.push(new NotebookCellData(NotebookCellKind.Code, pendingCode, langid))
+                }
             }
         })
         return new NotebookData(cells);
@@ -152,14 +163,14 @@ class TikbookSerializer implements NotebookSerializer {
         _token: CancellationToken
     ): Promise<Uint8Array> {
         let contents: string[] = [];
-        let lastCellType: number = NotebookCellKind.Markup
+        let lastCellType
         for (const cell of data.cells) {
-            if (cell.kind === NotebookCellKind.Markup) {
+            if (cell.kind == NotebookCellKind.Markup) {
                 // Markdown may may have new lines...
                 // but to be "safe" in .rsc, each line needs to have the "#!" prefix 
                 // since comments are are terminated by `\n`  
                 cell.value
-                    ?.replace(/\r\n|\r/g, '\n')
+                    ?.replace('\r\n', '\n')
                     ?.split('\n')
                     .forEach(item => {
                         contents.push(`#${markdownMark} ${item}`)
@@ -167,10 +178,12 @@ class TikbookSerializer implements NotebookSerializer {
                 lastCellType = NotebookCellKind.Markup
             }
             else {
-                if (lastCellType === NotebookCellKind.Code) {
-                    contents.push(`${cell.value}\r\n#${codeEndMark}`)
+                if (lastCellType == cell.kind) {
+                    contents.push(`#${codeEndMark}\n`)
+                    contents.push(cell.value)
                 } else {
-                    contents.push(`${cell.value}`)
+                    contents.push(cell.value)
+                    lastCellType = cell.kind
                 }
 
             }
@@ -226,7 +239,7 @@ class TikbookController {
         let outputItems: NotebookCellOutputItem[] = []
 
 
-        const callRestApi = async (path, data) => await axios.post<any>(
+        const callRestApi = async (path, data) => await axios.post(
             `${settings.baseUrl}/rest${path}`,
             data,
             {
@@ -296,7 +309,7 @@ interface GitHubRepo {
 
 async function fetchGitHubRepos(organization: string = "tikoci"): Promise<GitHubRepo[]> {
     try {
-        const response = await axios.get<GitHubRepo[]>(
+        const response = await axios.get(
             `https://api.github.com/orgs/${organization}/repos`,
             {
                 params: {
