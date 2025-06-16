@@ -3,6 +3,8 @@
 ### _a_ literate _way to work with RouterOS scripts in VSCode..._
 > More conceptual than functional at this point.  For example, readme is pretty incomplete.  Feel free to try the extension, and report.
 
+![screenshot-desktop](https://raw.githubusercontent.com/tikoci/vscode-tikbook/refs/heads/main/.github/screenshot-vscode-desktop.png)
+
 The TikBook VSCode Extensions provide a "Notebook" interface on MikroTik RouterOS script and configuration.  If you're not familiar with notebooks, it a way of mixing runnable code and text in same document, with example like Jupyter, Pluto, or Observable.  
 
 The only different between a "TikBook" and "normal" RouterOS script is the use of special comments — and since comments are ignored by RouterOS – a TikBook works on RouterOS unmodified.  So a `.tikbook.rsc` file is really just a RouterOS some "coding conventions" like that `/^#| .*$/` means embedded `.md` Markdown content.
@@ -16,6 +18,14 @@ As applied to RouterOS, script can be put into individual "notebook cells" and m
 
 The default extension is `*.tikbook.rsc`, which is used to trigger VSCode's Notebook interface and use this extension.  But the end `.rsc` allows the same script to work with "RouterOS LSP" and other syntax colorizers that recognize the `*.rsc` as RouterOS script — since a TikBook is still a valid `.rsc`.  
 
+> [!TIP]
+>
+> Works with VSCode for Web — like https://github.dev too!
+>
+>  _...Almost, "Run" is not supported.  Well, it is supported, but RouterOS does not accept REST API with CORS headers so browser does not allow the needed HTTP calls._  
+>
+>But you can edit and save - in VSCode for Web too:  
+> ![screenshot-web](https://raw.githubusercontent.com/tikoci/vscode-tikbook/refs/heads/main/.github/screenshot-vscode-web.png)
 
 #### Uses Cases
 * Do "partial" runs of a larger script, with Markdown available to document the code
