@@ -6,7 +6,7 @@
 
 
 ## Changelog
-### 0.1.6
+### 0.1.7
 
 #### Changes
 * Allow TikBook to work on fully on desktop, including run scripting (introduced 0.1.5) but _all_ work in "VSCode for Web"
@@ -15,6 +15,8 @@
 * Build and publish "web" target separate from "all others", to allow `--target node` to be used for desktop, which bypasses CORS on desktop
 
 
+### 0.1.6
+_Ephemeral_
 
 ### 0.1.5
 
