@@ -55,8 +55,6 @@ Launch VSCode, if not already running. TikBook configuration can be done by "Ope
 4. Adjust the "Base URL" with the IP address and protocol needed (_without_ trailing slash or path), and provide username and password with at least `policy=read,api,rest-api` access to RouterOS
 5. Close the Settings window. Settings should be picked up automatically.
 
-![img](https://i.ibb.co/6JfjhwKT/Screenshot-2025-06-09-at-10-30-05-AM.png)
-
 
 ##### Customizing Colors in VSCode
 
