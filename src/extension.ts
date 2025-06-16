@@ -230,6 +230,7 @@ class TikbookController {
             `${settings.baseUrl}/rest${path}`,
             data,
             {
+                withCredentials: true,
                 auth: {
                     username: settings.username || 'lsp',
                     password: settings.password || 'changeme'
