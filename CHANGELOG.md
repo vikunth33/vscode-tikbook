@@ -2,15 +2,24 @@
 ## Known Issues
 
 * Early builds & conceptional to get feedback on issue of a "RouterOS Notebook"
-* VSCode for Web does not load TikBook, yet
-  * _Note_ running scripts from VSCode for web would be a different step.  But a TikBook should at least load in web — running RouterOS scripts requires CORS support, which RouterOS lacks
+* VSCode for Web will load/save TikBook, but it will not be able to run any scripts — this requires CORS support, which RouterOS lacks (*untested if proxing CORS works)
+
 
 ## Changelog
+### 0.1.6
+
+#### Changes
+* Allow TikBook to work on fully on desktop, including run scripting (introduced 0.1.5) but _all_ work in "VSCode for Web"
+
+#### Fixes
+* Build and publish "web" target separate from "all others", to allow `--target node` to be used for desktop, which bypasses CORS on desktop
+
+
 
 ### 0.1.5
 
 #### Changes
-* Extension appears and install on VSCode for Web but fails to open a TikBook nor run commands
+* Extension is listed and installs on _VSCode for Web_ but will not run in desktop nor web (see CORS below)
 
 #### Fixes
 * _Attempted_ fix, using `--target=browser` not `--target=node` in `package.json`

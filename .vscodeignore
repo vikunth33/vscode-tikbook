@@ -8,7 +8,7 @@ icon.svg
 **/.*bun-build
 vscode-tikbook*
 **/tsconfig.tsbuildinfo
-.github/*
+.github/**
 .vscode/**
 client/src/**
 server/src/**
@@ -20,3 +20,5 @@ webpack.config.js
 .eslintrc.json
 bun.lock
 **/bun.lock
+.vscodeignore*
+screenshot-*.*

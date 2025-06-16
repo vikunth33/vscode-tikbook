@@ -19,7 +19,7 @@ jobs:
 
       - name: Install `bun`
         uses: oven-sh/setup-bun@v2
-      
+
       - name: Install dependencies
         run: npm install
 
@@ -39,16 +39,18 @@ jobs:
       - name: Package VSIX
         run: |
           npm run vsix:package
-          mv tikbook-*.vsix tikbook.vsix
 
-      
-      - name: Upload VSIX artifact
+      - name: Upload VSIX artifact (node)
         uses: actions/upload-artifact@v4
         with:
-          name: tikbook.vsix
-          path: tikbook.vsix
+          name: tikbook-node.vsix
+          path: tikbook-node.vsix
 
-      
+      - name: Upload VSIX artifact (web)
+        uses: actions/upload-artifact@v4
+        with:
+          name: tikbook-web.vsix
+          path: tikbook-web.vsix
 
       - name: Get package version
         id: pkgver
@@ -66,7 +68,7 @@ jobs:
           updateOnlyUnreleased: true
           body: |
             **TikBook for RouterOS** (v${{steps.pkgver.outputs.version}})
-            
+
             > [!NOTE]
             >
             > "Known Issues" and "Changelog" can be found in [CHANGES.md](https://github.com/tikoci/vscode-tikbook/blob/main/CHANGES.md).
@@ -74,17 +76,19 @@ jobs:
             > See [README.md](https://github.com/tikoci/vscode-tikbook/README.md) for more details about installation and usage.
             >
 
-            Download `tikbook.vsix` and install use `code --install-extension tikbook.vsix` from your download directory.
+            Download `tikbook-node.vsix` and install use `code --install-extension tikbook-node.vsix` from your download directory.
 
           artifacts: |
-            tikbook.vsix
-            
+            tikbook-web.vsix
+            tikbook-node.vsix
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       # TODO: Publish release should be it's own build task, VSCode works and Open-VSX should too
       #
-      - name: Publish to VSCode Marketplace
-        run: npx @vscode/vsce publish --no-dependencies --pre-release -p ${{secrets.VSCE_PAT}}
+      - name: Publish to VSCode Marketplace (node)
+        run: npx @vscode/vsce publish --packagePath ./tikbook-node.vsix --no-dependencies --pre-release -p ${{secrets.VSCE_PAT}}
+      - name: Publish to VSCode Marketplace (web)
+        run: npx @vscode/vsce publish --packagePath ./tikbook-web.vsix --no-dependencies --target web --pre-release -p ${{secrets.VSCE_PAT}}
       - name: Publish to Open-VSX too
-        run: npx ovsx publish tikbook.vsix -p ${{secrets.OVSX_PAT}}
+        run: npx ovsx publish tikbook-node.vsix -p ${{secrets.OVSX_PAT}}

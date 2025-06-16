@@ -39,7 +39,8 @@
   "engines": {
     "vscode": "^1.75.0"
   },
-  "browser": "./out/extension.js",
+  "browser": "./out/extension-web.js",
+  "main": "./out/extension-node.js",
   "funding": [
     "https://coff.ee/amm0"
   ],
@@ -153,15 +154,21 @@
   },
   "scripts": {
     "clean": "rm -rf ./out/* && rm -f *.vsix",
-    "compile": "bun build src/extension.ts --outdir ./out --external vscode --format=cjs --target=browser --sourcemap",
-    "vsix:package": "rm -f *.vsix && bun run compile && npx @vscode/vsce package --no-dependencies --pre-release",
+    "compile": "bun run compile:web && bun run compile:node",
+    "compile:node": "bun build src/extension.ts --outdir=./out --entry-naming=extension-node.js --external vscode --format=cjs --target=node --sourcemap ",
+    "compile:web": "bun build src/extension.ts --outdir=./out --entry-naming=extension-web.js --external vscode --format=cjs --target=browser --sourcemap",
+    "vsix:package:all": "bun run vsix:package:node && && bun run vsix:package:web ",
+    "vsix:package": "bun run vsix:package:node && bun run vsix:package:web",
+    "vsix:package:node": "rm -f *-node.vsix && bun run compile && npx @vscode/vsce package --no-dependencies --pre-release -o tikbook-node.vsix",
+    "vsix:package:web": "rm -f *-web.vsix && bun run compile && npx @vscode/vsce package --target web --no-dependencies --pre-release -o tikbook-web.vsix",
     "vsix:install": "bun run vsix:remove; bun run vsix:package && code --install-extension tikbook-*.vsix",
     "vsix:remove": "code --uninstall-extension tikoci.tikbook || echo '... well if not install, cannot remove it'",
-    "watch": "bun build src/extension.ts --outdir ./out --external vscode --format=cjs --target=browser --sourcemap --watch",
+    "watch": "bun build src/extension.ts --outfile=./out/extension-node.ts --external vscode --format=cjs --target=node --sourcemap --watch",
     "bump:patch": "npm version patch",
     "vscode:prepublish": "bun run compile",
-    "ovsx:publish": "npx ovsx publish tikbook.vsix -p $OVSX_PAT",
-    "vsix:publish": "npx @vscode/vsce publish --no-dependencies --pre-release -p $VSCE_PAT"
+    "ovsx:publish": "npx ovsx publish tikbook-node.vsix -p $OVSX_PAT",
+    "vsix:publish:node": "npx @vscode/vsce publish --packagePath ./tikbook-node.vsix --no-dependencies --pre-release -p $VSCE_PAT",
+    "vsix:publish:web": "npx @vscode/vsce publish --target web --packagePath ./tikbook-web.vsix --no-dependencies --pre-release -p $VSCE_PAT"
   },
   "devDependencies": {
     "@types/bun": "^1.2.16",
