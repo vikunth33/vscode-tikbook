@@ -4,7 +4,10 @@
     {
       "type": "npm",
       "script": "compile",
-      "group": "build",
+      "group":{
+        "kind": "build",
+        "isDefault": true
+      },
       "presentation": {
         "panel": "dedicated",
         "reveal": "never"
@@ -17,13 +20,13 @@
       "isBackground": true,
       "group": {
         "kind": "build",
-        "isDefault": true
+        "isDefault": false
       },
       "presentation": {
         "panel": "dedicated",
         "reveal": "never"
       },
-      "problemMatcher": ["$tsc"]
+      "problemMatcher": ["$tsc-watch"]
     }
   ]
 }
