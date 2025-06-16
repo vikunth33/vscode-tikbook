@@ -6,6 +6,15 @@
 
 
 ## Changelog
+
+### 0.1.8
+
+#### Changes
+* With a CORS proxy setup _somewhere_, VSCode for Web can run script. _TODO - update docs_
+
+#### Fixes
+* [VSCode for Web] Use withCredentials in Axios calls to REST API 
+
 ### 0.1.7
 
 #### Changes
